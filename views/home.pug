@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+        title LinkShortener
+
+        link(rel="preconnect" href="https://fonts.googleapis.com")
+        link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+        link(href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet")
+
+        link(rel="stylesheet" href="/style.css")
+    body
+        main
+            div.title LinkShortener
+            
+            div.error(style="display: none;")
+            div.link(style="display: none;")
+
+            form(class="shorten-form")
+                input(type="url", name="url", id="url" placeholder="Paste your URL here!")
+                input(type="submit", value="Generate new, shortened link!")
+
+            div.about
+                | Links in database: #{linksCount}
+                br
+                | Total clicks: #{totalClicks}
+        
+        footer
+            a(href="mailto:abuse@jnwz.cf") Report Abuse
+            br
+            | LinkShortener v#{version} by 
+            a(href="https://github.com/Olek47", target="_blank") Olek47
+
+        script(src="/app.js")
