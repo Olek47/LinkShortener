@@ -5,8 +5,9 @@ import Link from "./models/link.js";
 import indexRouter from "./routes/index.js";
 import apiRouter from "./routes/api.js";
 
-const port = process.env.PORT || 8000;
-const trustProxy = parseInt(process.env.TRUST_PROXY) || "loopback";
+const PORT = process.env.PORT || 8000;
+const TRUST_PROXY = parseInt(process.env.TRUST_PROXY) || "loopback";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/linkshortener";
 
 const app = express();
 
@@ -24,7 +25,7 @@ app.use(indexRouter);
 app.use("/api", apiRouter);
 
 // Trust proxy
-app.set("trust proxy", trustProxy);
+app.set("trust proxy", TRUST_PROXY);
 
 // Mongoose settings
 mongoose.set("strictQuery", false);
@@ -46,11 +47,11 @@ setInterval(updateStats, 5 * 60 * 1000);
 
 (async () => {
     console.log("Connecting to the database...");
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mongoose.connect(MONGODB_URI);
     console.log("Connected!");
     
     await updateStats();
     
-    await app.listen(port);
-    console.log(`App is listening on port ${port}...`);
+    await app.listen(PORT);
+    console.log(`App is listening on port ${PORT}...`);
 })();

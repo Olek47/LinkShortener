@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 const ID_LENGTH = parseInt(process.env.ID_LENGTH) || 4;
 const PROTOCOLS = ["http:", "https:"];
 const SERVER_HOST = process.env.SERVER_HOST || "127.0.0.1";
+const SERVER_URL = process.env.SERVER_URL || "http://127.0.0.1:8000/";
 
 async function newID() {
     let id, obj;
@@ -65,7 +66,7 @@ export default (req, res) => {
 
     newShortenedURL(req.body.url).then((id) => {
         res.json({
-            link: process.env.SERVER_URL + id
+            link: SERVER_URL + id
         });
     });
 };
