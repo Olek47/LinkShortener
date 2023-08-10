@@ -15,10 +15,6 @@ const limiter = rateLimit({
     legacyHeaders: false
 });
 
-Router.get("/", (req, res) => {
-    res.send("Hello World!");
-});
-
 Router.get("/url", async (req, res) => {
     if (!req.query.id) {
         return res.status(400).json({
@@ -42,5 +38,11 @@ Router.get("/url", async (req, res) => {
 });
 
 Router.post("/url", limiter, shortenController);
+
+Router.use((req, res) => {
+    res.status(404).json({
+        error: "404 Not Found!"
+    });
+});
 
 export default Router;
