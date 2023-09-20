@@ -3,6 +3,24 @@ const urlElement = document.querySelector("#url");
 const errorElement = document.querySelector(".error");
 const linkElement = document.querySelector(".link");
 
+function showLink(link) {
+    errorElement.setAttribute("style", "display: none;");
+    linkElement.removeAttribute("style");
+    linkElement.innerHTML = "Your shortened link has been generated:<br>";
+
+    const a = document.createElement("a");
+    a.href = link;
+    a.target = "_blank";
+    a.innerText = link;
+    linkElement.appendChild(a);
+}
+
+function showError(error) {
+    linkElement.setAttribute("style", "display: none;");
+    errorElement.removeAttribute("style");
+    errorElement.innerText = "Error: " + error;
+}
+
 shortenForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const url = urlElement.value;
@@ -19,30 +37,17 @@ shortenForm.addEventListener("submit", async (event) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                url: url
+                url
             })
         });
 
         result = await response.json();
     } catch (error) {
-        console.log("Error:", error);
+        console.error(error);
+        showError("Failed to connect to the server!");
         return;
     }
 
-    if (result.error) {
-        linkElement.setAttribute("style", "display: none;");
-        errorElement.removeAttribute("style");
-        errorElement.innerText = "Error: " + result.error;
-        return;
-    }
-
-    errorElement.setAttribute("style", "display: none;");
-    linkElement.removeAttribute("style");
-    linkElement.innerHTML = "Your shortened link has been generated:<br>";
-
-    const a = document.createElement("a");
-    a.href = result.link;
-    a.target = "_blank";
-    a.innerText = result.link;
-    linkElement.appendChild(a);
+    if (result.error) showError(result.error);
+    else showLink(result.link);
 });
