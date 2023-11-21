@@ -32,7 +32,7 @@ mongoose.set("strictQuery", false);
 
 // Stats update logic
 async function updateStats() {
-    app.locals.linksCount = await Link.count();
+    app.locals.linkCount = await Link.count();
 
     const totalClicks = await Link.aggregate([
         {

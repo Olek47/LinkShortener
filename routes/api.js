@@ -15,6 +15,19 @@ const limiter = rateLimit({
     legacyHeaders: false
 });
 
+Router.get("/version", (req, res) => {
+    res.json({
+        version: req.app.locals.version
+    });
+});
+
+Router.get("/stats", (req, res) => {
+    res.json({
+        linkCount: req.app.locals.linkCount,
+        totalClicks: req.app.locals.totalClicks
+    });
+});
+
 Router.get("/url", async (req, res) => {
     if (!req.query.id) {
         return res.status(400).json({
