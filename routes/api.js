@@ -36,7 +36,7 @@ Router.get("/url", async (req, res) => {
     }
 
     const obj = await Link.findOne({
-        id: req.query.id
+        id: String(req.query.id)
     });
 
     if (!obj) {
