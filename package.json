@@ -1,6 +1,6 @@
 {
   "name": "linkshortener",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "description": "A simple URL shortener made in Express.JS",
   "main": "server.js",
   "type": "module",

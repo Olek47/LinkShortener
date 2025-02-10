@@ -29,15 +29,21 @@ Router.get("/stats", (req, res) => {
 });
 
 Router.get("/url", async (req, res) => {
-    if (!req.query.id) {
+    const id = req.query.id;
+
+    if (!id) {
         return res.status(400).json({
-            error: "Missing id query parameter!"
+            error: "Missing ID query parameter!"
         });
     }
 
-    const obj = await Link.findOne({
-        id: String(req.query.id)
-    });
+    if (typeof id !== "string") {
+        return res.status(400).json({
+            error: "ID query parameter should be a string!"
+        });
+    }
+
+    const obj = await Link.findOne({ id });
 
     if (!obj) {
         return res.status(404).json({

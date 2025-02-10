@@ -46,25 +46,33 @@ function isValidURL(url) {
 }
 
 export default (req, res) => {
-    if (!req.body.url) {
+    const url = req.body.url;
+
+    if (!url) {
         return res.status(400).json({
             error: "URL parameter is empty!"
         });
     }
 
-    if (req.body.url.length > 255) {
+    if (typeof url !== "string") {
+        return res.status(400).json({
+            error: "URL parameter should be a string!"
+        });
+    }
+
+    if (url.length > 255) {
         return res.status(400).json({
             error: "URL parameter is too long!"
         });
     }
 
-    if (!isValidURL(req.body.url)) {
+    if (!isValidURL(url)) {
         return res.status(400).json({
             error: "Not a valid URL!"
         });
     }
 
-    newShortenedURL(req.body.url).then((id) => {
+    newShortenedURL(url).then((id) => {
         res.json({
             link: SERVER_URL + id
         });
